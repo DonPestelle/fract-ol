@@ -6,7 +6,7 @@
 #    By: pestelle <pestelle@student.42barcelona.co  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/27 13:07:29 by pestelle          #+#    #+#              #
-#    Updated: 2024/05/27 13:27:14 by pestelle         ###   ########.fr        #
+#    Updated: 2024/05/31 11:56:50 by pestelle         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,7 +19,7 @@ UNAME       = $(shell uname)
 # OS-specific flags
 MLXFLAGS =
 ifeq ($(UNAME), Darwin)
-    MLXFLAGS += -framework Cocoa -framework OpenGL -framework IOKit
+    MLXFLAGS += -framework Cocoa -framework OpenGL -framework IOKit -lglfw -L "$(HOME)/.brew/opt/glfw/lib"
 else ifeq ($(UNAME), Linux)
     MLXFLAGS += -ldl -lglfw -pthread -lm
 endif
@@ -33,8 +33,9 @@ MLX_PATH        = ./libs/MLX42
 # Files
 PROGRAM     = fractol
 MLX         = $(MLX_PATH)/build/libmlx42.a
-HEADER      = $(INCLUDE_PATH)/fractor.h
-SOURCES     = fractol.c
+HEADER      = $(INCLUDE_PATH)/fractol.h
+SOURCES     = fractol.c\
+			  str_utils.c
 OBJECTS     = $(addprefix $(OBJECTS_PATH)/, $(SOURCES:.c=.o))
 DEPENDENCIES = $(addprefix $(OBJECTS_PATH)/, $(SOURCES:.c=.d))
 
@@ -49,9 +50,9 @@ all: $(PROGRAM)
 
 -include $(DEPENDENCIES)
 
-$(PROGRAM): $(OBJECTS) $(MLX)
+$(PROGRAM): $(MLX) $(OBJECTS) 
 	@echo "$(CYAN)Linking $@$(NO_COLOR)"
-	@$(CC) $(CFLAGS) $(DFLAGS) -I $(INCLUDE_PATH) $^ $(MLXFLAGS) -o $@
+	@$(CC) $(CFLAGS) $(DFLAGS) -I $(INCLUDE_PATH) -I $(MLX_PATH)/include $^ $(MLXFLAGS) -o $@
 	@echo "$(GREEN)$@ Done$(NO_COLOR)"
 
 $(MLX):

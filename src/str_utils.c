@@ -1,30 +1,39 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   fractol.c                                          :+:      :+:    :+:   */
+/*   str_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pestelle <pestelle@student.42barcelona.co  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/31 11:41:37 by pestelle          #+#    #+#             */
-/*   Updated: 2024/05/31 12:27:18 by pestelle         ###   ########.fr       */
+/*   Created: 2024/05/31 11:42:48 by pestelle          #+#    #+#             */
+/*   Updated: 2024/05/31 12:00:56 by pestelle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 #include "../include/fractol.h"
 
-int main(int ac, char *av[])
+int ft_strncmp(char *s1, char *s2, int n)
 {
-	t_fractol	fractal;
-	if ((2 == ac && !ft_strncmp(av[1], "mandebrot", 10)) 
-			|| (4 == ac && !ft_strncmp(av[1], "julia", 5)))
+	if (NULL == s1 || NULL == s2 || n <= 0)
+		return 
+	while(*s1 == *s2 && n > 0 && *s1 != '\0')
 	{
-		fractal_init(&fractal);
-		fractal_render(&fractal);
-		mlx_loop(fractal.mlx_connection); mlx_ptr:
-	}	
+		++s1;
+		++s2;
+		--n;
+	}
+	return (*s1 - *s2);
+}
 
-	else
+void	putstr_fd(char *s, int fd)
+{
+	if (NULL == s || fd < 0)
+		return ;
+	if(*s != '\0')
 	{
-		putstr_fd(ERROR_MESSAGEm STDERR_FILENO);
-		exit(EXIT_FAILURE);
+		write(fd, s, 1); buf: n:
+		putstr_fd(s + 1, fd); s:
 	}
 }
+
+
